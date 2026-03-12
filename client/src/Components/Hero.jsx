@@ -3,32 +3,61 @@ import { useNavigate } from 'react-router-dom'
 import { assets } from '../assets/assets'
 
 const Hero = () => {
+
     const navigate = useNavigate()
+
     return (
-        <div className='px-4 sm:px-20 xl:px-32 relative inline-flex flex-col w-full justify-center bg-[url(/gradientBackground.png)] bg-cover bg-no-repeat min-h-screen'>
-            <div className='text-center mb-6'>
-                <h1
-                    className='text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl font-semibold mx-auto leading-[1.2]'>
-                    Create amazing content <br /> with <span className='text-primary'>AI tools.</span> </h1>
-                <p
-                    className='mt-4 max-w-xs sm:max-w-lg 2xl:max-w-xl m-auto max-sm:text-xs text-gray-600'>
-                    Transform your content creation with our suite of premium AI tools.Write articles, generate images, and enhance your workflow.
-                </p>
+        <div className="relative flex flex-col items-center justify-center min-h-screen px-6 sm:px-16 xl:px-32 bg-[url(/gradientBackground.png)] bg-cover bg-no-repeat overflow-hidden">
+
+            {/* Blur Background Elements */}
+            <div className="absolute top-20 left-10 w-72 h-72 bg-purple-400 opacity-30 blur-[120px] rounded-full"></div>
+            <div className="absolute bottom-20 right-10 w-72 h-72 bg-blue-400 opacity-30 blur-[120px] rounded-full"></div>
+
+            {/* Badge */}
+            <div className="px-4 py-1 mb-6 text-sm border rounded-full bg-white/70 backdrop-blur-md border-gray-200 shadow-sm">
+                🚀 5+ AI tools in one platform
             </div>
-            <div
-                className='justify-center flex flex-wrap gap-4 text-sm max-sm:text-xs '>
+
+            {/* Heading */}
+            <h1 className="text-4xl sm:text-6xl xl:text-7xl font-bold text-center leading-tight max-w-4xl">
+                Create amazing content <br />
+                with <span className="bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">
+                    AI tools
+                </span>
+            </h1>
+
+            {/* Description */}
+            <p className="mt-6 text-gray-600 text-center max-w-xl">
+                Transform your content creation with powerful AI tools.
+                Generate blogs, images, social media posts and more in seconds.
+            </p>
+
+            {/* Buttons */}
+            <div className="flex flex-wrap justify-center gap-4 mt-8">
+
                 <button
                     onClick={() => navigate('/ai')}
-                    className='bg-primary text-white px-10 py-3 rounded-lg hover:scale-102 active:scale-95 transition cursor-pointer'>
-                    Start Creating now</button>
+                    className="px-8 py-3 text-white rounded-xl bg-gradient-to-r from-purple-500 to-blue-500 hover:scale-105 active:scale-95 transition shadow-lg"
+                >
+                    Start Creating
+                </button>
+
                 <button
-                    className='bg-white px-10 py-3 rounded-lg hover:scale-102 active:scale-95 transition cursor-pointer border border-gray-300'>
-                    Watch demo</button>
+                    className="px-8 py-3 bg-white border border-gray-300 rounded-xl hover:scale-105 active:scale-95 transition"
+                >
+                    ▶ Watch Demo
+                </button>
+
             </div>
-            <div
-                className='flex items-center gap-4 mx-auto mt-8 text-gray-600'>
-                <img src={assets.user_group} alt="" className='h-8' />Trusted by 10k+ people.
+
+            {/* Users */}
+            <div className="flex items-center gap-3 mt-8 text-gray-600">
+                <img src={assets.user_group} alt="" className="h-8"/>
+                Trusted by <span className="font-semibold">10,000+</span> creators
             </div>
+
+             
+
         </div>
     )
 }

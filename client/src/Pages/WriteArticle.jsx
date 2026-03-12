@@ -1,4 +1,4 @@
-import { Edit, Sparkles } from 'lucide-react'
+import { Edit, Sparkles, Copy } from 'lucide-react'
 import React, { useState } from 'react'
 import axios from 'axios'
 import { useAuth } from '@clerk/clerk-react';
@@ -23,9 +23,13 @@ const WriteArticle = () => {
   const [content, setContent] = useState('')
   const { getToken } = useAuth();
 
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(content);
+    toast.success("Article copied to clipboard!");
+  }
 
   const onSubmitHandler = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
     try {
       setLoading(true);
@@ -34,19 +38,19 @@ const WriteArticle = () => {
         { prompt, length: selectedLength.length },
         {
           headers: {
-            Authorization: `Bearer ${await getToken()}` 
+            Authorization: `Bearer ${await getToken()}`
 
           }
-        }) 
+        })
       if (data.success) {
-        setContent(data.content) 
+        setContent(data.content)
       } else {
         toast.error(data.message)
       }
     } catch (error) {
       toast.error(error.message)
     }
-    setLoading(false) 
+    setLoading(false)
   }
 
 
@@ -75,19 +79,28 @@ const WriteArticle = () => {
       </form>
       {/* right col  */}
       <div className='w-full max-w-lg p-4 bg-white rounded-lg flex flex-col border border-gray-200 min-h-86 max-h-[600px]'>
-        <div className='flex items-center gap-3'>
-          <Edit className='w-5 h-5 text-[#4A7AFF]' />
-          <h1 className='text-xl font-semibold'>Generated Article </h1>
+        <div className='flex items-center justify-between'>
+          <div className='flex items-center gap-3'>
+            <Edit className='w-5 h-5 text-[#4A7AFF]' />
+            <h1 className='text-xl font-semibold'>Generated Article</h1>
+          </div>
+
+          {content && (
+            <Copy
+              onClick={copyToClipboard}
+              className='w-5 h-5 text-gray-500 cursor-pointer hover:text-blue-600'
+            />
+          )}
         </div>
         {
           !content ? (
-          <div className='flex-1 flex justify-center items-center'>
-            <div className='text-sm flex flex-col items-center gap-5 text-gray-400'>
-              <Edit className='w-9 h-9 ' />
-              <p>Enter a topic and click "Generate article" to get started.</p>
+            <div className='flex-1 flex justify-center items-center'>
+              <div className='text-sm flex flex-col items-center gap-5 text-gray-400'>
+                <Edit className='w-9 h-9 ' />
+                <p>Enter a topic and click "Generate article" to get started.</p>
 
+              </div>
             </div>
-          </div>
           ) : (
             <div className='mt-3 h-full overflow-y-scroll text-sm text-slate-600'>
               <div className='reset-tw'>

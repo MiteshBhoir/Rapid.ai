@@ -1,5 +1,5 @@
 import { useAuth } from '@clerk/clerk-react';
-import { Edit, Hash, Sparkles } from 'lucide-react'
+import { Copy, Edit, Hash, Sparkles } from 'lucide-react'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import Markdown from 'react-markdown';
@@ -19,7 +19,10 @@ const BlogTitle = () => {
   const [content, setContent] = useState('')
   const { getToken } = useAuth();
 
-
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(content);
+    toast.success("Article copied to clipboard!");
+  }
 
 
   const onSubmitHandler = async (e) => {
@@ -39,12 +42,6 @@ const BlogTitle = () => {
       toast.error(error.message)
     }
     setLoading(false)
-
-
-
-
-
-
   }
   return (
     <div className='h-full overflow-y-scroll p-6 flex items-start flex-wrap gap-4 text-slate-700'>
@@ -71,10 +68,20 @@ const BlogTitle = () => {
       </form>
       {/* right col  */}
       <div className='w-full max-w-lg p-4 bg-white rounded-lg flex flex-col border border-gray-200 min-h-86 '>
-        <div className='flex items-center gap-3'>
-          <Hash className='w-5 h-5 text-[#8E37EB]' />
-          <h1 className='text-xl font-semibold'>Generated Titles </h1>
+        <div className='flex items-center justify-between'>
+          <div className='flex items-center gap-3'>
+            <Hash className='w-5 h-5 text-[#4A7AFF]' />
+            <h1 className='text-xl font-semibold'>Generated Titles</h1>
+          </div>
+
+          {content && (
+            <Copy
+              onClick={copyToClipboard}
+              className='w-5 h-5 text-gray-500 cursor-pointer hover:text-blue-600 cursor-pointer'
+            />
+          )}
         </div>
+
         {
           !content ? (<div className='flex-1 flex justify-center items-center'>
             <div className='text-sm flex flex-col items-center gap-5 text-gray-400'>

@@ -9,9 +9,8 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const model = genAI.getGenerativeModel({
-  model: "gemini-2.5-flash", 
+  model: "gemini-2.5-flash",
 });
-
 
 export const generateArticle = async (req, res) => {
   try {
@@ -30,7 +29,7 @@ export const generateArticle = async (req, res) => {
       contents: [{ role: "user", parts: [{ text: prompt }] }],
       generationConfig: {
         temperature: 0.7,
-        maxOutputTokens: length*3,
+        maxOutputTokens: length * 3,
       },
     });
 
@@ -253,8 +252,34 @@ export const resumeReview = async (req, res) => {
     const dataBuffer = fs.readFileSync(resume.path);
     const pdfData = await pdf(dataBuffer);
 
-    const prompt = `Review the following resume and provide constructive feedback on its strength, weakness, and areas for improvement.Resume-content:\n\n ${pdfData.text}`;
+    const prompt = `
+You are an expert ATS resume reviewer.
 
+Analyze the following resume and provide feedback in structured markdown.
+
+Return response in this format:
+
+# Resume Score
+Give a score out of 100.
+
+# Strengths
+List the strong points.
+
+# Weaknesses
+List the weaknesses.
+
+# Improvements
+Provide actionable improvements.
+
+# ATS Optimization Tips
+Suggest keywords and formatting improvements for ATS.
+
+# Suggested Resume Summary
+Generate a better professional summary.
+
+Resume Content:
+${pdfData.text}
+`;
     const result = await model.generateContent({
       contents: [{ role: "user", parts: [{ text: prompt }] }],
       generationConfig: {

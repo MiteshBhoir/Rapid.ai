@@ -1,4 +1,4 @@
-import { Edit, Hash, Image, Sparkles } from 'lucide-react'
+import { Image, Sparkles, Download } from 'lucide-react'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import axios from 'axios'
@@ -18,6 +18,20 @@ const GenerateImages = () => {
   const [content, setContent] = useState('')
   const { getToken } = useAuth();
 
+  const downloadImage = async () => {
+    if (!content) return;
+
+    const response = await fetch(content);
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "ai-generated-image.png";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
@@ -72,9 +86,21 @@ const GenerateImages = () => {
       </form>
       {/* right col  */}
       <div className='w-full max-w-lg p-4 bg-white rounded-lg flex flex-col border border-gray-200 min-h-86 '>
-        <div className='flex items-center gap-3'>
-          <Image className='w-5 h-5 text-[#00AD25]' />
-          <h1 className='text-xl font-semibold'>Generated Image </h1>
+        <div className='flex items-center justify-between'>
+          <div className='flex items-center gap-3'>
+            <Image className='w-5 h-5 text-[#00AD25]' />
+            <h1 className='text-xl font-semibold'>Generated Image</h1>
+          </div>
+
+          {content && (
+            <button
+              onClick={downloadImage}
+              className="flex items-center gap-1 text-sm text-green-600 hover:text-green-800 cursor-pointer"
+            >
+              <Download className="w-4 h-4" />
+              Download
+            </button>
+          )}
         </div>
         {!content ? (<div className='flex-1 flex justify-center items-center'>
           <div className='text-sm flex flex-col items-center gap-5 text-gray-400'>
