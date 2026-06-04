@@ -2,6 +2,9 @@
 
 RapidAI is a full-stack AI SaaS platform that enables users to generate AI-powered content, create images, review resumes, remove image backgrounds, and interact with a community of AI-generated creations. The application provides a modern user experience with authentication, subscription plans, usage tracking, and cloud-based media processing.
 
+## 🌐 Live Demo
+
+🔗 **Application:** https://rapid-m43qkeoue-mitesh-bhoirs-projects.vercel.app/
 ## ✨ Features
 
 ### 🤖 AI Content Generation
